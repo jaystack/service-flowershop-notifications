@@ -35,7 +35,7 @@ function subscribe(broker: any, queueName: string): Promise<void> {
   });
 }
 
-function messageHandler(msg: any, content: any, ackOrNack: Function):void {
+function messageHandler(msg: any, content: any, ackOrNack: Function) {
   const order: IOrder = JSON.parse(content);
   insertToDb(getEmailFromOrder(order));
   return ackOrNack();
