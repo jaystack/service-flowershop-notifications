@@ -38,6 +38,8 @@ module.exports = {
   "defer": 1000,
   "queuename": "sendEmailMQ",
   "mongodb": {
-    "uri": "mongodb://localhost/flowershop"
+    "host": "localhost",
+    "port": 27017,
+    "db": "flowershop"
   }
 }

@@ -83,8 +83,20 @@ async function createBroker(rascalConfig) {
   return await promisifyCreateBroker(rascal, rascal.withDefaultConfig(config));
 }
 
+function createMongoConnetionString({host, port, db}, endpointAddress: string) {
+  const address = endpointAddress || `${host}:${port}`;
+  return `mongodb://${address}/${db}`;
+}
+
+function createMongoConnection(mongoConfig) {
+  const endpointAddress = getServiceAddress('localhost:27017')
+  const connectionUri = createMongoConnetionString(mongoConfig, endpointAddress)
+  mongoose.connect(connectionUri);
+}
+
 export default async function main() {
-  mongoose.connect(config.get('mongodb.uri'));
+  const mongoConfig = config.get('mongodb')
+  createMongoConnection(mongoConfig)
   const rascalConfig = config.get('rascal');
   const broker = await createBroker(rascalConfig);
   subscribe(broker, config.get('queuename'));
