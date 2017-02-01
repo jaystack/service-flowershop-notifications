@@ -1,6 +1,8 @@
 import * as config from 'config';
 import * as rascal from 'rascal';
 import * as mongoose from 'mongoose';
+import { getServiceAddress } from 'system-endpoints'
+import { stringify } from 'querystring'
 import Email from './email';
 import { IEmail, IOrder } from './types';
 
@@ -68,8 +70,22 @@ function insertToDb(emailToSend: IEmail) {
   });
 }
 
+function createRascalConnectionString({user, password, vhost, hostname, port, options}, endpointAddress: string) {
+  const address = endpointAddress || `${hostname}:${port}`;
+  const optionString = stringify(options);
+  return `amqp://${user}:${password}@${address}/${vhost}?${optionString}`
+}
+
+async function createBroker(rascalConfig) {
+  const endpointAddress = getServiceAddress('localhost:5672');
+  const connection = createRascalConnectionString(rascalConfig.vhosts.flowershop.connection, endpointAddress);
+  const config = { vhosts: { flowershop: { ...rascalConfig.vhosts.flowershop, connection } } };
+  return await promisifyCreateBroker(rascal, rascal.withDefaultConfig(config));
+}
+
 export default async function main() {
   mongoose.connect(config.get('mongodb.uri'));
-  const broker = await promisifyCreateBroker(rascal, rascal.withDefaultConfig(config.get('rascal')));
+  const rascalConfig = config.get('rascal');
+  const broker = await createBroker(rascalConfig);
   subscribe(broker, config.get('queuename'));
 }
