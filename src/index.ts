@@ -1,12 +1,22 @@
 import * as config from 'config';
 import * as rascal from 'rascal';
 import * as mongoose from 'mongoose';
+import * as winston from 'winston';
 import { getServiceAddress } from 'system-endpoints'
 import { stringify } from 'querystring'
 import Email from './email';
 import { IEmail, IOrder } from './types';
 
-function promisifyCreateBroker(rascal: any, rascalConfig: any) {
+type ErrorCallback = (err: Error) => void
+type RascalPublicationCallback = (err: Error, publication: any) => void
+type RascalSubsriptionCallback = (err: Error, subscription: any) => void
+interface RascalBroker {
+  on(event: string, error: ErrorCallback): void
+  publish(publication: string, message: string, callback: RascalPublicationCallback)
+  subscribe(subscription: string, message: string, callback: RascalSubsriptionCallback)
+}
+
+function promisifyCreateBroker(rascal: any, rascalConfig: any): Promise<RascalBroker> {
   return new Promise((resolve, reject) => {
     return rascal.createBroker(rascalConfig, {}, (err: Error, broker: any) => {
       if (err) {
@@ -94,10 +104,23 @@ function createMongoConnection(mongoConfig) {
   mongoose.connect(connectionUri);
 }
 
+function showErrorMessageAndExit(err: Error) {
+    winston.error("Got RabbitMQ error:")
+    winston.error(err)
+    winston.warn('This process must be stopped in order to be able to be restarted by pm2')
+    process.exit(1);
+}
+
 export default async function main() {
   const mongoConfig = config.get('mongodb')
   createMongoConnection(mongoConfig)
   const rascalConfig = config.get('rascal');
   const broker = await createBroker(rascalConfig);
+
+  broker.on('error', (err) => {
+    //console.error('Broker error', err)
+    showErrorMessageAndExit(err);
+  })
+
   subscribe(broker, config.get('queuename'));
 }
