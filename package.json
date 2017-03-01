@@ -16,7 +16,7 @@
     "mongoose": "^4.7.7",
     "querystring": "^0.2.0",
     "rascal": "^1.0.0",
-    "system-endpoints": "~0.0.3",
+    "system-endpoints": "~0.0.5",
     "winston": "^2.3.1"
   },
   "devDependencies": {
