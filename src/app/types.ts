@@ -5,7 +5,7 @@ export interface IEmail {
   message: string,
   type: string
 }
-
+/*
 export interface IItems {
   Category: string,
   Price: number,
@@ -21,3 +21,4 @@ export interface IOrder {
   EmailAddress: string,
   Orders: IItems[]
 }
+*/
