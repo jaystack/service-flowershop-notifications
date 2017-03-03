@@ -1,45 +1,33 @@
-const path = require('path')
+const { transports } = require('winston')
+
 module.exports = {
-  "systemEndpoints": {
-    "sync": true,
-    "host": path.normalize(__dirname + "/../system-endpoints.json")
+
+  endpoints: {
+    endpointsFilePath: 'system-endpoints.json',
+    normalize: true
   },
-  "rascal": {
-    "vhosts": {
-      "flowershop": {
-        "connection": {
-          "hostname": "localhost",
-          "user": "guest",
-          "password": "guest",
-          "port": 5672,
-          "vhost": "flowershop",
-          "options": {
-            "heartbeat": 5
-          }
-        },
-        "queues": {
-          "sendEmailMQ": {
-            "options": {
-              "arguments": {
-                "x-message-ttl": 60000,
-                "x-max-length": 5000
-              }
-            }
-          }
-        },
-        "subscriptions": {
-          "sendEmailMQ": {
-            "queue": "sendEmailMQ"
-          }
-        }
-      }
+
+  logger: {
+    transportFactories: [
+      () => new transports.Console(),
+      () => new transports.File({ filename: 'all.log' })
+    ]
+  },
+
+  mongodb: {
+    db: "flowershop"
+  },
+
+  rabbit: {
+    connection: {
+      username: 'guest',
+      password: 'guest'
     }
   },
-  "defer": 1000,
-  "queuename": "sendEmailMQ",
-  "mongodb": {
-    "host": "localhost",
-    "port": 27017,
-    "db": "flowershop"
+
+  messaging: {
+    requestQueue: 'sendEmailMQ',
+    deadLetterExchange: 'service-flowershop-notifications-dlx'
   }
+
 }
