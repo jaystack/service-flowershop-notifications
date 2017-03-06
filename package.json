@@ -11,7 +11,6 @@
     "build-tests:w": "node_modules/.bin/tsc -p -w src/test --outDir lib",
     "pretest": "npm run build-tests",
     "test": "node_modules/.bin/mocha lib/test/**/*.spec.js -c",
-    "prestart": "npm run build",
     "start": "node ."
   },
   "dependencies": {
