@@ -20,12 +20,12 @@
     "corpjs-endpoints": "0.0.13",
     "corpjs-logger": "0.0.13",
     "corpjs-mongodb": "0.0.5",
-    "corpjs-system": "0.0.35"
+    "corpjs-system": "0.0.36"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.39",
-    "@types/node": "^7.0.5",
-    "mocha": "^3.2.0",
-    "typescript": "^2.2.0"
+    "@types/mocha": "2.2.39",
+    "@types/node": "7.0.5",
+    "mocha": "3.2.0",
+    "typescript": "2.2.0"
   }
 }
