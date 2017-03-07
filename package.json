@@ -19,7 +19,7 @@
     "corpjs-endpoints": "0.0.13",
     "corpjs-logger": "0.0.13",
     "corpjs-mongodb": "0.0.5",
-    "corpjs-system": "0.0.36"
+    "corpjs-system": "0.0.37"
   },
   "devDependencies": {
     "@types/mocha": "2.2.39",
