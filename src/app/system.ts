@@ -10,7 +10,7 @@ import Consumer from './Consumer'
 
 export default new System({ name })
   .add('config', new Config()
-    .add(() => Config.loaders.require({ path: 'config/default.js', watch: true }))
+    .add(() => Config.loaders.require({ path: 'config/default.js' }))
     .add(() => Config.loaders.require({ path: 'config/test.js' })))
   .add('endpoints', Endpoints()).dependsOn({ component: 'config', source: 'endpoints', as: 'config' })
   .add('mongodb', MongoDb()).dependsOn('endpoints', { component: 'config', source: 'mongodb', as: 'config' })
