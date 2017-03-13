@@ -14,13 +14,13 @@
     "start": "node ."
   },
   "dependencies": {
-    "corpjs-amqp": "0.0.6",
-    "corpjs-config": "0.0.11",
-    "corpjs-endpoints": "0.0.13",
-    "corpjs-express": "0.0.12",
-    "corpjs-logger": "0.0.13",
-    "corpjs-mongodb": "0.0.5",
-    "corpjs-system": "0.0.46"
+    "corpjs-amqp": "0.1.8",
+    "corpjs-config": "0.1.2",
+    "corpjs-endpoints": "0.1.2",
+    "corpjs-express": "0.1.2",
+    "corpjs-logger": "0.1.2",
+    "corpjs-mongodb": "0.1.2",
+    "corpjs-system": "0.1.2"
   },
   "devDependencies": {
     "@types/mocha": "2.2.39",
