@@ -4,3 +4,4 @@ npm-debug.log
 system-endpoints.json
 .vscode
 *.log
+config/molinio.json
